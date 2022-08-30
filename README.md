@@ -6,6 +6,7 @@ operator-sdk v1.19.1
 
 
 # operator ops 
+
 ```
 operator-sdk init --domain example.com --repo github.com/example/memcached-operator
 
@@ -70,12 +71,14 @@ rules:
   - update
 
 oc apply -f config/rbac/memcached_role.yaml
+
 ```
 # deploy memcached cluster
 
 kc apply -f config/samples/cache_v1alpha1_memcached.yaml
 
 # deploy cert-manager
+
 ```
 wget  https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml
 kc apply -f cert-manager.yaml
@@ -173,6 +176,7 @@ make manifests
 make docker-build IMG=quay.io/zhangchl007/memcached-operator:v0.0.4
 make deploy  IMG=quay.io/zhangchl007/memcached-operator:v0.0.4
 
+```
 # how validating and mutating admission webhooks work
 
 ```
@@ -217,7 +221,6 @@ func (r *Memcached) ValidateCreate() error {
 }
 
 ```
-
 # webhook logging 
 
 ```
