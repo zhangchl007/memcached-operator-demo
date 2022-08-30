@@ -45,6 +45,7 @@ func (r *Memcached) Default() {
 	// TODO(user): fill in your defaulting logic.
 	if r.Spec.Size < 3 {
 		r.Spec.Size = 1
+		memcachedlog.Info("Memcached.Spec.Size has been modified by mutating admission webhook %s", "Size", r.Spec.Size)
 	}
 }
 
@@ -58,6 +59,16 @@ func (r *Memcached) ValidateCreate() error {
 	memcachedlog.Info("validate create", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object creation.
+	key := "inject"
+	anno, found := r.Annotations[key]
+	if !found {
+		memcachedlog.Info("missing annotation %s", "key", key)
+	}
+	if len(anno) == 0 {
+		memcachedlog.Info("missing annotation %s", "key", anno)
+
+	}
+
 	return nil
 }
 
@@ -66,6 +77,7 @@ func (r *Memcached) ValidateUpdate(old runtime.Object) error {
 	memcachedlog.Info("validate update", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object update.
+
 	return nil
 }
 

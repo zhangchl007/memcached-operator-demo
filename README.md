@@ -173,4 +173,61 @@ make manifests
 make docker-build IMG=quay.io/zhangchl007/memcached-operator:v0.0.4
 make deploy  IMG=quay.io/zhangchl007/memcached-operator:v0.0.4
 
+# how validating and mutating admission webhooks work
+
+```
+just put a little coding below:
+
+//+kubebuilder:webhook:path=/mutate-cache-example-com-v1alpha1-memcached,mutating=true,failurePolicy=fail,sideEffects=None,groups=cache.example.com,resources=memcacheds,verbs=create;update,versions=v1alpha1,name=mmemcached.kb.io,admissionReviewVersions=v1
+
+var _ webhook.Defaulter = &Memcached{}
+
+// Default implements webhook.Defaulter so a webhook will be registered for the type
+func (r *Memcached) Default() {
+	memcachedlog.Info("default", "name", r.Name)
+
+	// TODO(user): fill in your defaulting logic.
+	if r.Spec.Size < 3 {
+		r.Spec.Size = 1
+		memcachedlog.Info("Memcached.Spec.Size has been modified by mutating admission webhook %s", "Size", r.Spec.Size)
+	}
+}
+
+// TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
+//+kubebuilder:webhook:path=/validate-cache-example-com-v1alpha1-memcached,mutating=false,failurePolicy=fail,sideEffects=None,groups=cache.example.com,resources=memcacheds,verbs=create;update,versions=v1alpha1,name=vmemcached.kb.io,admissionReviewVersions=v1
+
+var _ webhook.Validator = &Memcached{}
+
+// ValidateCreate implements webhook.Validator so a webhook will be registered for the type
+func (r *Memcached) ValidateCreate() error {
+	memcachedlog.Info("validate create", "name", r.Name)
+
+	// TODO(user): fill in your validation logic upon object creation.
+	key := "inject"
+	anno, found := r.Annotations[key]
+	if !found {
+		memcachedlog.Info("missing annotation %s", "key", key)
+	}
+	if len(anno) == 0 {
+		memcachedlog.Info("missing annotation %s", "key", anno)
+
+	}
+
+	return nil
+}
+
+```
+# webhook logging 
+
+```
+1.6618807272097151e+09	DEBUG	controller-runtime.webhook.webhooks	received request	{"webhook": "/mutate-cache-example-com-v1alpha1-memcached", "UID": "0419015e-74b8-46ef-bfa6-abfe001c95cf", "kind": "cache.example.com/v1alpha1, Kind=Memcached", "resource": {"group":"cache.example.com","version":"v1alpha1","resource":"memcacheds"}}
+1.6618807272098625e+09	INFO	memcached-resource	default	{"name": "memcached-sample"}
+1.6618807272098734e+09	INFO	memcached-resource	Memcached.Spec.Size has been modified by mutating admission webhook %s	{"Size": 1}
+1.6618807272100334e+09	DEBUG	controller-runtime.webhook.webhooks	wrote response	{"webhook": "/mutate-cache-example-com-v1alpha1-memcached", "code": 200, "reason": "", "UID": "0419015e-74b8-46ef-bfa6-abfe001c95cf", "allowed": true}
+1.661880727216337e+09	DEBUG	controller-runtime.webhook.webhooks	received request	{"webhook": "/validate-cache-example-com-v1alpha1-memcached", "UID": "690af189-3212-4527-b494-50816f478fa0", "kind": "cache.example.com/v1alpha1, Kind=Memcached", "resource": {"group":"cache.example.com","version":"v1alpha1","resource":"memcacheds"}}
+1.6618807272164948e+09	INFO	memcached-resource	validate create	{"name": "memcached-sample"}
+1.6618807272165124e+09	INFO	memcached-resource	missing annotation %s	{"key": "inject"}
+1.6618807272165198e+09	INFO	memcached-resource	missing annotation %s	{"key": ""}
+1.661880727216553e+09	DEBUG	controller-runtime.webhook.webhooks	wrote response	{"webhook": "/validate-cache-example-com-v1alpha1-memcached", "code": 200, "reason": "", "UID": "690af189-3212-4527-b494-50816f478fa0", "allowed": true}
+1.6618807272227423e+09	INFO	controller.memcached	Creating a new Deployment	{"reconciler group": "cache.example.com", "reconciler kind": "Memcached", "name": "memcached-sample", "namespace": "default", "Deployment.Namespace": "default", "Deployment.Name": "memcached-sample"
 ```
