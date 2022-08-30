@@ -217,9 +217,11 @@ func (r *Memcached) ValidateCreate() error {
 }
 
 ```
+
 # webhook logging 
 
 ```
+
 1.6618807272097151e+09	DEBUG	controller-runtime.webhook.webhooks	received request	{"webhook": "/mutate-cache-example-com-v1alpha1-memcached", "UID": "0419015e-74b8-46ef-bfa6-abfe001c95cf", "kind": "cache.example.com/v1alpha1, Kind=Memcached", "resource": {"group":"cache.example.com","version":"v1alpha1","resource":"memcacheds"}}
 1.6618807272098625e+09	INFO	memcached-resource	default	{"name": "memcached-sample"}
 1.6618807272098734e+09	INFO	memcached-resource	Memcached.Spec.Size has been modified by mutating admission webhook %s	{"Size": 1}
@@ -230,4 +232,5 @@ func (r *Memcached) ValidateCreate() error {
 1.6618807272165198e+09	INFO	memcached-resource	missing annotation %s	{"key": ""}
 1.661880727216553e+09	DEBUG	controller-runtime.webhook.webhooks	wrote response	{"webhook": "/validate-cache-example-com-v1alpha1-memcached", "code": 200, "reason": "", "UID": "690af189-3212-4527-b494-50816f478fa0", "allowed": true}
 1.6618807272227423e+09	INFO	controller.memcached	Creating a new Deployment	{"reconciler group": "cache.example.com", "reconciler kind": "Memcached", "name": "memcached-sample", "namespace": "default", "Deployment.Namespace": "default", "Deployment.Name": "memcached-sample"
+
 ```
