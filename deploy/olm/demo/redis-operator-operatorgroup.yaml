@@ -1,0 +1,8 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: memcached-operator-og
+  namespace: olm-demo
+spec:
+  targetNamespaces:
+    - olm-demo

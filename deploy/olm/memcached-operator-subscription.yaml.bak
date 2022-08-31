@@ -1,0 +1,11 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: memcached-operator
+  namespace: default
+spec:
+  channel: "alpha"
+  name: memcached-operator
+  source: memcached-operator-catalog
+  sourceNamespace: olm
+  startingCSV: memcached-operator.v0.0.6

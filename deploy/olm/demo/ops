@@ -1,0 +1,10 @@
+kc apply -f mariadb-operatorgroup.yaml
+kc apply -f mariadb-subscription.yaml
+kc get packagemanifest -n openshift-marketplace
+kubectl get subscription
+kubectl get installplan
+MARIADB_INSTALLPLAN=`kubectl get installplan -o jsonpath={$.items[0].metadata.name}`
+kubectl get installplan $MARIADB_INSTALLPLAN -o yaml
+kubectl get installplan
+kubectl patch installplan $MARIADB_INSTALLPLAN --type='json' -p '[{"op": "replace", "path": "/spec/approved", "value":true}]'
+kubectl get clusterserviceversion

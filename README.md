@@ -237,3 +237,30 @@ func (r *Memcached) ValidateCreate() error {
 1.6618807272227423e+09	INFO	controller.memcached	Creating a new Deployment	{"reconciler group": "cache.example.com", "reconciler kind": "Memcached", "name": "memcached-sample", "namespace": "default", "Deployment.Namespace": "default", "Deployment.Name": "memcached-sample"
 
 ```
+# Operator and OLM integration
+```
+kc apply -f crds.yaml
+kc apply -f olm.yaml
+operator-sdk olm status
+
+export USERNAME=zhangchl007
+export VERSION=0.0.7
+export IMG=quay.io/$USERNAME/memcached-operator:v$VERSION # location where your operator image is hosted
+export BUNDLE_IMG=quay.io/$USERNAME/memcached-operator-bundle:v$VERSION # location where your bundle will be hosted
+
+make bundle
+operator-sdk bundle validate ./bundle
+
+make catalog-build catalog-push CATALOG_IMG=quay.io/zhangchl007/memcached-operator-catalog:v0.0.7
+
+kc apply -f  deploy/olm/memcached-operator-catalogsources.yaml
+kc get packagemanifest -n openshift-marketplace |grep -i memcached
+
+kc create ns olm-demo
+kc -n olm-demo apply -f deploy/olm/memcached-operator-controller-manager_rbac.authorization.k8s.io_v1_clusterrolebinding.yaml
+kc apply -f  deploy/olm/memcached-operator-subscription.yaml
+kc -n olm-demo get og,sub,ip,csv,pods
+
+kc apply -f config/samples/cache_v1alpha1_memcached.yaml
+
+```
