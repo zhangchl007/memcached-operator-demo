@@ -13,7 +13,23 @@ operator-sdk init --domain example.com --repo github.com/example/memcached-opera
 operator-sdk create api --group cache --version v1alpha1 --kind Memcached --resource --controller
 
 # modify api and controller
+```
+type MemcachedSpec struct {
+	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+	// Important: Run "make" to regenerate code after modifying this file
 
+	// Foo is an example field of Memcached. Edit memcached_types.go to remove/update
+	Size int32 `json:"size"`
+}
+
+// MemcachedStatus defines the observed state of Memcached
+type MemcachedStatus struct {
+	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
+	// Important: Run "make" to regenerate code after modifying this file
+	Nodes []string `json:"nodes"`
+}
+
+```
 
 # generate manifest
 
