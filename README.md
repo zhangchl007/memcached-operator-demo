@@ -30,6 +30,7 @@ type MemcachedStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Nodes []string `json:"nodes"`
 }
+
 ```
 
 # generate manifest
@@ -38,7 +39,8 @@ make generate
 make manifests
 make undeploy
 
-#make operator docker image
+```
+# make operator docker image
 
 make docker-build IMG=quay.io/zhangchl007/memcached-operator:v0.0.3
 
