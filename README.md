@@ -8,6 +8,8 @@ operator-sdk v1.19.1
 # operator ops 
 
 ```
+mkdir memcached-operator
+cd memcached-operator
 operator-sdk init --domain example.com --repo github.com/example/memcached-operator
 
 operator-sdk create api --group cache --version v1alpha1 --kind Memcached --resource --controller
