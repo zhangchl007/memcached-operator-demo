@@ -13,7 +13,7 @@ cd memcached-operator
 operator-sdk init --domain example.com --repo github.com/example/memcached-operator
 
 operator-sdk create api --group cache --version v1alpha1 --kind Memcached --resource --controller
-
+```
 # modify api and controller
 ```
 type MemcachedSpec struct {
@@ -30,7 +30,6 @@ type MemcachedStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	Nodes []string `json:"nodes"`
 }
-
 ```
 
 # generate manifest
