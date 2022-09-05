@@ -273,7 +273,7 @@ operator-sdk bundle validate ./bundle
 make catalog-build catalog-push CATALOG_IMG=quay.io/zhangchl007/memcached-operator-catalog:v0.0.7
 
 kc apply -f  deploy/olm/memcached-operator-catalogsources.yaml
-kc get packagemanifest -n openshift-marketplace |grep -i memcached
+kc get packagemanifest  |grep -i memcached
 
 kc create ns olm-demo
 kc -n olm-demo apply -f deploy/olm/memcached-operator-controller-manager_rbac.authorization.k8s.io_v1_clusterrolebinding.yaml
