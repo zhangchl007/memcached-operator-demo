@@ -1,9 +1,13 @@
 # memcached-operator-demo
-
+```
 go version 1.17
-
 operator-sdk v1.19.1
+```
+# the training video
 
+[operator Demo](https://www.bilibili.com/video/BV1xg411U7xa/?vd_source=2a8b5d42d59a0cb370122ff08a2e002f)
+
+[operator olm Demo](https://www.bilibili.com/video/BV1Te4y1a7HQ/?vd_source=2a8b5d42d59a0cb370122ff08a2e002f)
 
 # operator ops 
 
