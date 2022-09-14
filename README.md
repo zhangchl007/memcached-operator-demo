@@ -50,52 +50,7 @@ make docker-build IMG=quay.io/zhangchl007/memcached-operator:v0.0.3
 
 make deploy IMG=quay.io/zhangchl007/memcached-operator:v0.0.3
 
-# if the error show operator sa can't list deployments
 
-cat config/rbac/memcached_role.yaml 
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  creationTimestamp: null
-  name: memcached-operator-manager-role
-rules:
-- apiGroups:
-  - cache.example.com
-  - apps
-  resources:
-  - memcacheds
-  - deployments
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - cache.example.com
-  - apps
-  resources:
-  - memcacheds/finalizers
-  - deployments
-  verbs:
-  - update
-- apiGroups:
-  - cache.example.com
-  - apps
-  resources:
-  - memcacheds/status
-  - deployments
-  verbs:
-  - get
-  - patch
-  - update
-
-oc apply -f config/rbac/memcached_role.yaml
-
-```
 # deploy memcached cluster
 
 kc apply -f config/samples/cache_v1alpha1_memcached.yaml
