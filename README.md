@@ -10,7 +10,6 @@ operator-sdk v1.19.1
 [operator olm Demo](https://www.bilibili.com/video/BV1Te4y1a7HQ/?vd_source=2a8b5d42d59a0cb370122ff08a2e002f)
 
 # operator ops 
-
 ```
 mkdir memcached-operator
 cd memcached-operator
@@ -36,13 +35,12 @@ type MemcachedStatus struct {
 }
 
 ```
-
 # generate manifest
 
+```
 make generate
 make manifests
 make undeploy
-
 ```
 # make operator docker image
 
@@ -50,13 +48,11 @@ make docker-build IMG=quay.io/zhangchl007/memcached-operator:v0.0.3
 
 make deploy IMG=quay.io/zhangchl007/memcached-operator:v0.0.3
 
-
 # deploy memcached cluster
 
 kc apply -f config/samples/cache_v1alpha1_memcached.yaml
 
 # deploy cert-manager
-
 ```
 wget  https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml
 kc apply -f cert-manager.yaml
@@ -147,9 +143,10 @@ vars:
     kind: Service
     version: v1
     name: webhook-service
-
+```
 # generate manifest
 
+```
 make manifests
 make docker-build IMG=quay.io/zhangchl007/memcached-operator:v0.0.4
 make deploy  IMG=quay.io/zhangchl007/memcached-operator:v0.0.4
